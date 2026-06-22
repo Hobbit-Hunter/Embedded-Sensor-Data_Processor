@@ -22,4 +22,6 @@ typedef struct __attribute__((packed)){
     uint32_t sequence_number;
     uint8_t reserved[2];
 }ADCsample;
+
+double voltage(double raw_value);
 #endif //UNTITLED3_ADC_H

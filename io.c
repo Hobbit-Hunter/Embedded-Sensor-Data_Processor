@@ -21,5 +21,11 @@ if(sizeof(ADCsample)!=16) {
     if (sizeof(ADCheader) != 24) {
         printf("error-header!=24");
     }
+    ADCsample sample;
+    while (fread(&sample, sizeof(ADCsample), 1, file) == 1) {
+        double volts = voltage(sample.raw_value);
+        printf("raw value: %u\t", sample.raw_value);
+        printf("voltage: %.2f\n", volts);
+    }
     fclose(file);
 }
