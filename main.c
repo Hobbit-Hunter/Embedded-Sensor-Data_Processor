@@ -5,6 +5,9 @@
 
 int main() {
     sensor_log();
+    mean_voltage(voltage, count);
+        printf("mean voltage: %lf", mean_voltage);
+
     return 0;
 
 
