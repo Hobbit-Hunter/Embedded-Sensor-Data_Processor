@@ -24,5 +24,4 @@ typedef struct __attribute__((packed)){
 }ADCsample;
 
 double voltage(double raw_value);
-int count;
 #endif //UNTITLED3_ADC_H

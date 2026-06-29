@@ -3,18 +3,20 @@
 //
 #include "adc.h"
 #include "io.h"
+#include "stats.h"
+#include <stdlib.h>
 #include <stdio.h>
 void sensor_log(void){
 FILE *file = fopen("../adc_sensor_log.bin","rb");
 ADCheader header;
+    if(file==NULL){
+        printf("error-file=NULL");
+    }else if(header.magic!=0xADC1BEEF){
+        printf("error-magic number!=0xADC1BEEF");
+    }else{
+        printf("magic number correct");
+    }
 fread(&header, sizeof(ADCheader), 1, file);
-if(file==NULL){
-    printf("error-file=NULL");
-}else if(header.magic!=0xADC1BEEF){
-    printf("error-magic number!=0xADC1BEEF");
-}else{
-    printf("magic number correct");
-}
 if(sizeof(ADCsample)!=16) {
     printf("error-sample!=16");
 }
@@ -22,10 +24,14 @@ if(sizeof(ADCsample)!=16) {
         printf("error-header!=24");
     }
     ADCsample sample;
+    ADCsample *samples = malloc(header.record_count * sizeof(ADCsample));
     while(fread(&sample, sizeof(ADCsample), 1, file) == 1) {
         double volts = voltage(sample.raw_value);
         printf("raw value: %u\t", sample.raw_value);
-        printf("voltage: %.2f\n", volts);
+        printf("voltage: %.2f\t", volts);
     }
+    printf("mean: %.2f\t", mean_voltage);
+    printf("minimum: %.2f\t", minimum);
+    printf("maximum: %.2f\t", maximum);
     fclose(file);
 }

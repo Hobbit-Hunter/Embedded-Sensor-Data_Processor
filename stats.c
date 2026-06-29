@@ -38,8 +38,32 @@ double standard_deviation(double *values, int count){
     }
     double average = total/count;
     double sd;
+    double sum;
     for(int i=0;i < count;i++){
-        double total += (values[i]-average)*(values[i]-average);
+        sum += (values[i]-average)*(values[i]-average);
     }
-    return total/count-1;
+    sd = sqrt(sum/(count-1));
+    return sd;
 }
+double overvoltage(double *values, int count){
+    double ov;
+    for(int i=0;i < count;i++){
+        if(((values[i]/4095.0)*3.3)>3){
+            printf("error: overvoltage at row %d", i);
+        }
+    }
+}
+double undervoltage(double *values, int count){
+    double uv;
+    for(int i=0;i<count;i++){
+        if(((values[i]/4095.0)*3.3)<0.3){
+            printf("error: undervoltage at row %d", i);
+        }
+    }
+}
+//double Status_flag(double *values, int count){
+//    double sf;
+//    for(int i=0;i < count; i++){
+//        if(sample.status_flags)
+//    }
+//}
