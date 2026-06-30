@@ -9,6 +9,7 @@
 void sensor_log(void){
 FILE *file = fopen("../adc_sensor_log.bin","rb");
 ADCheader header;
+fread(&header, sizeof(ADCheader), 1, file);
     if(file==NULL){
         printf("error-file=NULL");
     }else if(header.magic!=0xADC1BEEF){
@@ -16,7 +17,6 @@ ADCheader header;
     }else{
         printf("magic number correct");
     }
-fread(&header, sizeof(ADCheader), 1, file);
 if(sizeof(ADCsample)!=16) {
     printf("error-sample!=16");
 }
@@ -33,5 +33,6 @@ if(sizeof(ADCsample)!=16) {
     printf("mean: %.2f\t", mean_voltage);
     printf("minimum: %.2f\t", minimum);
     printf("maximum: %.2f\t", maximum);
+    printf("standard deviation: %.2f\t", standard_deviation);
     fclose(file);
 }

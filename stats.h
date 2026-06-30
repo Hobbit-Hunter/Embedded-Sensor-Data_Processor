@@ -10,4 +10,5 @@ double maximum(double *values, int count);
 double standard_deviation(double *values, int count);
 double overvoltage(double *values, int count);
 double undervoltage(double *values, int count);
+double status_flags(double *values, int count);
 #endif //UNTITLED3_STATS_H

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "adc.h"
+ADCsample *samples;
 double mean_voltage(double *values, int count) {
     double total = 0;
     for (int i=0; i < count; i++){
@@ -61,9 +62,11 @@ double undervoltage(double *values, int count){
         }
     }
 }
-//double Status_flag(double *values, int count){
-//    double sf;
-//    for(int i=0;i < count; i++){
-//        if(sample.status_flags)
-//    }
-//}
+double Status_flag(double *values, int count){
+    double sf;
+    for(int i=0;i < count; i++){
+        if(samples[i].status_flags != 0x00){
+            printf("error: status flag");
+        }
+    }
+}

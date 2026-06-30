@@ -24,4 +24,6 @@ typedef struct __attribute__((packed)){
 }ADCsample;
 
 double voltage(double raw_value);
+void sequence_gap(ADCsample *samples, int count);
+
 #endif //UNTITLED3_ADC_H
