@@ -6,8 +6,10 @@
 int main() {
     double values;
     int count;
+    ADCsample *samples;
+    ADCheader header;
     sensor_log();
-    sequence_gap(samples, header.record_count);
+    sequence_gap(samples, header);
 
     return 0;
 
