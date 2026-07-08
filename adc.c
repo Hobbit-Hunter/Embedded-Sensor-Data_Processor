@@ -7,6 +7,7 @@
 double voltage(double raw_value){
     return (raw_value/4095.0)*3.3;
 }
+//double values[header.record_count]
 void sequence_gap(ADCsample *samples, ADCheader header) {
     for (int i = 0; i < header.record_count; i++) {
         double gap = samples[i+1].sequence_number-samples[i].sequence_number;
