@@ -4,5 +4,5 @@
 
 #ifndef UNTITLED3_IO_H
 #define UNTITLED3_IO_H
-void sensor_log(void);
+ADCsample *sensor_log(const char *filename, ADCheader *header_out);
 #endif //UNTITLED3_IO_H

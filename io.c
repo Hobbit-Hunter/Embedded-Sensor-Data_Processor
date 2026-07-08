@@ -6,9 +6,9 @@
 #include "stats.h"
 #include <stdlib.h>
 #include <stdio.h>
-void sensor_log(void){
-FILE *file = fopen("../adc_sensor_log.bin","rb");
-ADCheader header;
+ADCsample *sensor_log(const char *filename, ADCheader *header_out){
+FILE *file = fopen(filename,"rb");
+ADCheader *header = header_out;
     if(file==NULL) {
         printf("error-file=NULL");
     }
@@ -24,18 +24,36 @@ ADCheader header;
 fread(&header, sizeof(ADCheader), 1, file);
 if(sizeof(RawADCRecord)!=16) {
     printf("error-sample!=16");
+    fclose(file);
+    return NULL;
 }
     if(sizeof(ADCheader) != 24) {
         printf("error-header!=24");
+        fclose(file);
+        return NULL;
     }
     double volts[4000];
-    ADCsample sample = malloc(header.record_count * sizeof(ADCsample));
+    ADCsample sample;
+    ADCsample *samples = malloc(header.record_count * sizeof(ADCsample));
+    if (samples == NULL) {
+        printf("error: malloc failed");
+        fclose(file);
+        return NULL;
+    }
     int i=0;
     int overvolt[4000]={0};
     int undervolt[4000]={0};
     int status_flag[4000]={0};
     printf("raw values\tvoltage\tover/undervolt:\n");
-    while(fread(&sample, sizeof(RawADCRecord), 1, file) == 1) {
+    while(i < header.record_count && fread(&sample, sizeof(RawADCRecord), 1, file) == 1) {
+        samples[i].timestamp = sample.timestamp;
+        samples[i].channel_id = sample.channel_id;
+        samples[i].raw_value = sample.raw_value;
+        samples[i].voltage = voltage(sample.raw_value);
+        samples[i].temperature = sample.temperature;
+        samples[i].status_flags = sample.status_flags;
+        samples[i].sequence_number = sample.sequence_number;
+
         volts[i] = voltage(sample.raw_value);
         status_flag[i]=status_flags(sample.status_flags);
         overvolt[i] = overvoltage(volts[i]);
@@ -54,6 +72,9 @@ if(sizeof(RawADCRecord)!=16) {
         printf("\t");
         printf("\n");
         i++;
+        *header_out = header;
+        fclose(file);
+        return samples;
     }
 
     printf("mean: %.2f\t", mean_voltage(volts, i));
