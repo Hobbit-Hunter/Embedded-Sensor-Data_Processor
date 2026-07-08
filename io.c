@@ -24,9 +24,7 @@ if(sizeof(RawADCRecord)!=16) {
         printf("error-header!=24");
     }
     double volts[4000];
-    ADCsample sample;
-    RawADCRecord rec;
-    RawADCRecord *rec = malloc(header.record_count * sizeof(RawADCRecord));
+    ADCsample sample = malloc(header.record_count * sizeof(ADCsample));
     int i=0;
     int overvolt[4000]={0};
     int undervolt[4000]={0};
