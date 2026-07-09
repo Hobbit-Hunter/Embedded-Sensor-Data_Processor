@@ -16,3 +16,6 @@ void sequence_gap(ADCsample *samples, ADCheader header) {
         }
     }
 }
+int analyze_channel() {
+
+}
