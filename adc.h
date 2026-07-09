@@ -33,6 +33,17 @@ typedef struct {
     uint32_t sequence_number;
 }ADCsample;
 
+typedef struct {
+    int channel;
+    int sample_count;
+    double mean;
+    double min;
+    double max;
+    double stddev;
+} ChannelReport;
+
+void analyze_channel(const ADCsample *samples, int count, int channel, ChannelReport *report);
+
 double voltage(double raw_value);
 void sequence_gap(ADCsample *samples, ADCheader header);
 

@@ -6,45 +6,40 @@
 #include <stdio.h>
 #include <math.h>
 #include "adc.h"
-double mean_voltage(double *values, int count) {
+double mean_voltage(const double *values, int count) {
+    if (count <0 0) return 0.0;
     double total = 0;
-    for (const ADCsample *p = samples; p < samples + count; p++){
-        total += values[i];
+    for (const double *p = values + 1; p < values + count; p++){
+        total += *p;
     }
     return total/count;
 }
-double minimum(double *values, int count) {
-    double min=values[0];
-    for (const ADCsample *p = samples; p < samples + count; p++) {
-        if (values[i] < min) {
-            min = values[i];
+double minimum(const double *values, int count) {
+    if (count <= 0) return 0;
+    double result = *values;
+    for (const double *p = values + 1; p < values + count; p++) {
+        if (*p < result) result = *p;
         }
     }
-    return min;
+    return result;
 }
-double maximum(double *values, int count){
-    double max=values[0];
-    for (const ADCsample *p = samples; p < samples + count; p++) {
-        if (values[i]>max){
-            max = values[i];
-        }
+double maximum(const double *values, int count){
+    if (count <= 0) return 0;
+    double result = *values;
+    for (const double *p = values + 1; p < values + count; p++) {
+        if (*p > result) result = *p;
     }
-    return max;
+    return result;
 }
-double standard_deviation(double *values, int count){
-    double total = 0;
-    for (const ADCsample *p = samples; p < samples + count; p++){
-        total += values[i];
-    }
-    double average = total/count;
-    double sd;
-    double sum;
-    for(int i=0;i < count;i++){
-        sum += (values[i]-average)*(values[i]-average);
-    }
-    sd = sqrt(sum/(count-1));
-    return sd;
+double standard_deviation(const double *values, int count){
+    if (count <= 1) return 0;
+    double average = mean_of(values, count);
+    double sum = 0;
+    for (const double *p = values; p < values + count; p++){
+        double diff = *p - average;
+        sum += diff * diff;
 }
+    return sqrt(sum/(count-1));
 int overvoltage(double value){
     if(value>3){
         return 1;

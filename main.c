@@ -9,6 +9,13 @@ int main(int argc, char *argv[]) {
         printf("usage: %s <sensor_log.bin>\n", argv[0]);
         return 1;
     }
+    int num_channels = (int) header.channel_count;
+    ChannelReport *channel_reports = malloc(num_channels * sizeof(ChannelReport));
+    if (channel_reports == NULL) {
+        printf("error; malloc failed");
+        free(samples);
+        return;
+    }
     double values;
     int count;
     ADCheader header;
