@@ -9,7 +9,7 @@ double voltage(double raw_value){
 }
 //double values[header.record_count]
 void sequence_gap(ADCsample *samples, ADCheader header) {
-    for (int i = 0; i < header.record_count; i++) {
+    for (const ADCsample *p = samples; p < samples + count; p++) {
         double gap = samples[i+1].sequence_number-samples[i].sequence_number;
         if(gap>1){
             printf("error: sequence error at row %d", i);

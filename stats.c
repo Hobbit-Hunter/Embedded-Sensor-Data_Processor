@@ -8,14 +8,14 @@
 #include "adc.h"
 double mean_voltage(double *values, int count) {
     double total = 0;
-    for (int i=0; i < count; i++){
+    for (const ADCsample *p = samples; p < samples + count; p++){
         total += values[i];
     }
     return total/count;
 }
 double minimum(double *values, int count) {
     double min=values[0];
-    for (int i = 1; i < count; i++) {
+    for (const ADCsample *p = samples; p < samples + count; p++) {
         if (values[i] < min) {
             min = values[i];
         }
@@ -24,7 +24,7 @@ double minimum(double *values, int count) {
 }
 double maximum(double *values, int count){
     double max=values[0];
-    for(int i = 1;i < count;i++) {
+    for (const ADCsample *p = samples; p < samples + count; p++) {
         if (values[i]>max){
             max = values[i];
         }
@@ -33,7 +33,7 @@ double maximum(double *values, int count){
 }
 double standard_deviation(double *values, int count){
     double total = 0;
-    for (int i=0; i < count; i++){
+    for (const ADCsample *p = samples; p < samples + count; p++){
         total += values[i];
     }
     double average = total/count;
