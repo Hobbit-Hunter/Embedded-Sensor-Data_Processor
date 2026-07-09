@@ -53,7 +53,7 @@ if(sizeof(RawADCRecord)!=16) {
         samples[i].temperature = sample.temperature;
         samples[i].status_flags = sample.status_flags;
         samples[i].sequence_number = sample.sequence_number;
-
+//
         volts[i] = voltage(sample.raw_value);
         status_flag[i]=status_flags(sample.status_flags);
         overvolt[i] = overvoltage(volts[i]);
