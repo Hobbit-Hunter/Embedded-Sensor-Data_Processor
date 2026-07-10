@@ -19,17 +19,22 @@ int main(int argc, char *argv[]) {
     if (channel_reports == NULL) {
         printf("error; malloc failed");
         free(samples);
-        return 0;
-    }
-    double values;
-    int count;
-    if (samples == NULL) {
         return 1;
     }
-    sequence_gap(samples, header.record_count);
+
+    for (int ch = 0; ch < num_channels; ch++) {
+        analyze_channel(samples, (int) header.record_count, ch, &channel_reports[ch]);
+    }
+
+    int gaps = sequence_gap(samples, (int) header.record_count);
+
+    if (write_results("results.txt", &header, channel_reports, num_channels, gaps) != 0) {
+        free(channel_reports);
+        free(samples);
+        return 1;
+    }
+    printf("%d sequence gaps\n", gaps);
+    free(channel_reports);
     free(samples);
     return 0;
-
-
-
 }
