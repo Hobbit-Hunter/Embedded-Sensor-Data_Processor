@@ -10,13 +10,17 @@ double voltage(double raw_value){
     return (raw_value/4095.0)*3.3;
 }
 //double values[header.record_count]
-void sequence_gap(ADCsample *samples, ADCheader header) {
+int sequence_gap(const ADCsample *samples, int count) {
+    int gaps = 0;
     for (const ADCsample *p = samples; p < samples + count; p++) {
-        double gap = samples[p+1].sequence_number-samples[p].sequence_number;
-        if(gap>1){
-            printf("error: sequence error at row %d", p);
+        uint32_t current = p->sequence_number;
+        uint32_t next = (p+1)->sequence_number;
+        if (next != current + 1) {
+            printf("error: sequence gap");
+            gaps++;
         }
     }
+    return gaps;
 }
 void analyze_channel(const ADCsample *samples, int count, int channel, ChannelReport *report) {
     report->channel = channel;

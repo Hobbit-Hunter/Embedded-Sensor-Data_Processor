@@ -15,7 +15,7 @@ ADCheader *header = header_out;
     if (fread(&header, sizeof(ADCheader), 1, file) != 1){
         printf("error: header != 1");
         fclose(file);
-    }else if(header.magic!=0xADC1BEEF){
+    }else if(header->magic!=0xADC1BEEF){
         printf("error-magic number!=0xADC1BEEF");
         fclose(file);
     }else{
@@ -34,7 +34,7 @@ if(sizeof(RawADCRecord)!=16) {
     }
     double volts[4000];
     ADCsample sample;
-    ADCsample *samples = malloc(header.record_count * sizeof(ADCsample));
+    ADCsample *samples = malloc(header->record_count * sizeof(ADCsample));
     if (samples == NULL) {
         printf("error: malloc failed");
         fclose(file);
@@ -45,7 +45,7 @@ if(sizeof(RawADCRecord)!=16) {
     int undervolt[4000]={0};
     int status_flag[4000]={0};
     printf("raw values\tvoltage\tover/undervolt:\n");
-    while(i < header.record_count && fread(&sample, sizeof(RawADCRecord), 1, file) == 1) {
+    while(i < header->record_count && fread(&sample, sizeof(RawADCRecord), 1, file) == 1) {
         samples[i].timestamp = sample.timestamp;
         samples[i].channel_id = sample.channel_id;
         samples[i].raw_value = sample.raw_value;
@@ -72,7 +72,6 @@ if(sizeof(RawADCRecord)!=16) {
         printf("\t");
         printf("\n");
         i++;
-        *header_out = header;
         fclose(file);
         return samples;
     }

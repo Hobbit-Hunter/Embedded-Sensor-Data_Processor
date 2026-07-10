@@ -4,10 +4,10 @@
 #include <stdint.h>
 #ifndef UNTITLED3_STATS_H
 #define UNTITLED3_STATS_H
-double mean_voltage(double *values, int count);
-double minimum(double *values, int count);
-double maximum(double *values, int count);
-double standard_deviation(double *values, int count);
+double mean_voltage(const double *values, int count);
+double minimum(const double *values, int count);
+double maximum(const double *values, int count);
+double standard_deviation(const double *values, int count);
 int overvoltage(double values);
 int undervoltage(double values);
 int status_flags(uint8_t values);

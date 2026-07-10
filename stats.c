@@ -7,9 +7,9 @@
 #include <math.h>
 #include "adc.h"
 double mean_voltage(const double *values, int count) {
-    if (count <0 0) return 0.0;
+    if (count <0) return 0;
     double total = 0;
-    for (const double *p = values + 1; p < values + count; p++){
+    for (const double *p = values; p < values + count; p++){
         total += *p;
     }
     return total/count;
@@ -17,29 +17,30 @@ double mean_voltage(const double *values, int count) {
 double minimum(const double *values, int count) {
     if (count <= 0) return 0;
     double result = *values;
-    for (const double *p = values + 1; p < values + count; p++) {
+    for (const double *p = values; p < values + count; p++) {
         if (*p < result) result = *p;
         }
-    }
     return result;
 }
 double maximum(const double *values, int count){
     if (count <= 0) return 0;
     double result = *values;
-    for (const double *p = values + 1; p < values + count; p++) {
+    for (const double *p = values; p < values + count; p++) {
         if (*p > result) result = *p;
     }
     return result;
 }
-double standard_deviation(const double *values, int count){
+double standard_deviation(const double *values, int count) {
     if (count <= 1) return 0;
     double average = mean_of(values, count);
     double sum = 0;
     for (const double *p = values; p < values + count; p++){
         double diff = *p - average;
         sum += diff * diff;
-}
+    }
     return sqrt(sum/(count-1));
+}
+
 int overvoltage(double value){
     if(value>3){
         return 1;

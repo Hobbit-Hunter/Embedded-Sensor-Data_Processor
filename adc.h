@@ -45,6 +45,6 @@ typedef struct {
 void analyze_channel(const ADCsample *samples, int count, int channel, ChannelReport *report);
 
 double voltage(double raw_value);
-void sequence_gap(ADCsample *samples, ADCheader header);
+int sequence_gap(const ADCsample *samples, int count);
 
 #endif //UNTITLED3_ADC_H
