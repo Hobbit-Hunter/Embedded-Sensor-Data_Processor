@@ -40,6 +40,9 @@ typedef struct {
     double min;
     double max;
     double stddev;
+    int overvoltage_count;
+    int undervoltage_count;
+    int fault_count;
 } ChannelReport;
 
 void analyze_channel(const ADCsample *samples, int count, int channel, ChannelReport *report);

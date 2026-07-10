@@ -72,6 +72,9 @@ int write_results(const char *filename, const ADCheader *header,
         fprintf(out, "Minimum voltage: %.3f V\n", r->min);
         fprintf(out, "Maximum voltage: %.3f V\n", r->max);
         fprintf(out, "Standard deviation: %.3f V\n", r->stddev);
+        fprintf(out, "Overvoltage faults: %d\n", r->overvoltage_count);
+        fprintf(out, "Undervoltage faults: %d\n", r->undervoltage_count);
+        fprintf(out, "Sensor faults: %d\n", r->fault_count);
     }
     fprintf(out, "Gaps detected: %d\n", sequence_gaps);
     fclose(out);

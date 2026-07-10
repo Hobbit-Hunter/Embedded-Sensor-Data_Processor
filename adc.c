@@ -24,22 +24,25 @@ int sequence_gap(const ADCsample *samples, int count) {
 }
 void analyze_channel(const ADCsample *samples, int count, int channel, ChannelReport *report) {
     report->channel = channel;
+    report->overvoltage_count = 0;
+    report->undervoltage_count = 0;
+    report->fault_count = 0;
 
     double *channel_volts = malloc(count * sizeof(double));
-    if (channel_volts == NULL) {
-        report->sample_count = 0;
-        report->mean = report->min = report-> max = report->stddev = 0;
-        return;
-    }
-
     int n = 0;
-    for (const ADCsample *p = samples; p < samples + count; p++) {
-        if (p->channel_id != channel) {
-            continue;
-        }
+    for (const ADCsample *p = samples; p< samples + count; p++) {
+        if (p->channel_id != channel) continue;
+
         channel_volts[n] = p->voltage;
         n++;
+
+        if (p->voltage > 3) report->overvoltage_count++;
+        if (p->voltage < 0.3) report->undervoltage_count++;
+        if (p->status_flags & 0x01) report->fault_count++;
     }
+
+
+
     report->sample_count = n;
     report->mean = mean_voltage(channel_volts, n);
     report->min = minimum(channel_volts, n);
