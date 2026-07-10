@@ -32,7 +32,7 @@ double maximum(const double *values, int count){
 }
 double standard_deviation(const double *values, int count) {
     if (count <= 1) return 0;
-    double average = mean_of(values, count);
+    double average = mean_voltage(values, count);
     double sum = 0;
     for (const double *p = values; p < values + count; p++){
         double diff = *p - average;
