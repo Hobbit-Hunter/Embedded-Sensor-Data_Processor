@@ -44,8 +44,7 @@ void analyze_channel(const ADCsample *samples, int count, int channel, ChannelRe
 
 
     report->sample_count = n;
-    report->mean = mean_voltage(channel_volts, n);
-    report->min = minimum(channel_volts, n);
+    report->mean = mean_voltage(channel_volts, n);report->min = minimum(channel_volts, n);
     report->max = maximum(channel_volts, n);
     report->stddev = standard_deviation(channel_volts, n);
 
